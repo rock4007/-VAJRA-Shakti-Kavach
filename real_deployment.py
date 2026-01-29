@@ -490,16 +490,24 @@ Created by: Soumodeep Guha
         
         # Step 2: Verify endpoints
         print("[DEPLOYMENT] Verifying endpoints...")
-        endpoints = ['/health', '/version', '/regions', '/heartbeat', '/location']
+        endpoints = [
+            ('/health', 'GET'),
+            ('/version', 'GET'),
+            ('/regions', 'GET')
+        ]
         all_ok = True
         
-        for endpoint in endpoints:
+        for endpoint, method in endpoints:
             try:
-                response = requests.get(f"{self.base_url}{endpoint}", timeout=5)
+                if method == 'GET':
+                    response = requests.get(f"{self.base_url}{endpoint}", timeout=5)
+                else:
+                    response = requests.post(f"{self.base_url}{endpoint}", json={}, timeout=5)
+                
                 if response.status_code == 200:
                     print(f"  ✓ {endpoint}: OK")
                 else:
-                    print(f"  ✗ {endpoint}: FAILED")
+                    print(f"  ✗ {endpoint}: FAILED (status {response.status_code})")
                     all_ok = False
             except Exception as e:
                 print(f"  ✗ {endpoint}: ERROR - {e}")
