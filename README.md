@@ -24,13 +24,13 @@ The first few hours are critical — evidence is often lost, and delay leaves no
 ## Visuals (Protection & Evidence)
 
 ### Protection Workflow Overview
-![Protection Overview](https://raw.githubusercontent.com/rock4007/-VAJRA-Shakti-Kavach/main/docs/images/women_protection.svg)
+![Protection Overview](docs/images/women_protection.svg)
 
 ### Evidence Preservation Flow
-![Evidence Flow](https://raw.githubusercontent.com/rock4007/-VAJRA-Shakti-Kavach/main/docs/images/evidence_flow.svg)
+![Evidence Flow](docs/images/evidence_flow.svg)
 
 ### Testing Results Dashboard (Sample)
-![Testing Dashboard](https://raw.githubusercontent.com/rock4007/-VAJRA-Shakti-Kavach/main/docs/images/testing_dashboard.svg)
+![Testing Dashboard](docs/images/testing_dashboard.svg)
 
 ---
 
