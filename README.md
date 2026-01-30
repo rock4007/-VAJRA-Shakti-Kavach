@@ -23,6 +23,23 @@ The first few hours are critical — evidence is often lost, and delay leaves no
 
 ---
 
+## Proof of Concept (Testing & Validation)
+The system has been validated with comprehensive automated testing and real-world threat simulations.
+
+**Key evidence:**
+- [Executive Summary](EXECUTIVE_SUMMARY.md)
+- [Comprehensive Test Report](COMPREHENSIVE_TEST_REPORT.md)
+- [Security Audit Report](SECURITY_AUDIT_REPORT.md)
+- [Real-World Threat Test Report](REAL_WORLD_THREAT_TEST_REPORT.md)
+- [Executive Threat Briefing](EXECUTIVE_THREAT_BRIEFING.md)
+- [Threat Testing Visual Summary](THREAT_TESTING_VISUAL_SUMMARY.md)
+
+**Test suites:**
+- [Comprehensive Test Suite](comprehensive_test.py)
+- [Real-World Threat Simulation](real_world_threat_simulation.py)
+
+---
+
 ## Visuals (Protection & Evidence)
 
 ### Protection Workflow Overview
