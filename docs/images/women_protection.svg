@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520">
+  <defs>
+    <style>
+      .bg { fill: #fff7f9; }
+      .card { fill: #ffffff; stroke: #ef4444; stroke-width: 2; rx: 14; }
+      .title { font: 600 22px 'Segoe UI', Arial, sans-serif; fill: #111827; }
+      .text { font: 15px 'Segoe UI', Arial, sans-serif; fill: #374151; }
+      .accent { fill: #ef4444; }
+      .soft { fill: #fee2e2; }
+      .line { stroke: #ef4444; stroke-width: 2; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1200" height="520" />
+
+  <rect class="card" x="60" y="70" width="330" height="160" />
+  <text x="225" y="115" text-anchor="middle" class="title">Immediate Safety</text>
+  <text x="225" y="145" text-anchor="middle" class="text">Rapid SOS activation</text>
+  <text x="225" y="168" text-anchor="middle" class="text">Location sharing & support</text>
+
+  <rect class="card" x="435" y="70" width="330" height="160" />
+  <text x="600" y="115" text-anchor="middle" class="title">Evidence Preservation</text>
+  <text x="600" y="145" text-anchor="middle" class="text">Cryptographic sealing</text>
+  <text x="600" y="168" text-anchor="middle" class="text">Timestamped incident packets</text>
+
+  <rect class="card" x="810" y="70" width="330" height="160" />
+  <text x="975" y="115" text-anchor="middle" class="title">Lawful Escalation</text>
+  <text x="975" y="145" text-anchor="middle" class="text">Delay transparency</text>
+  <text x="975" y="168" text-anchor="middle" class="text">No override of authorities</text>
+
+  <rect class="card" x="60" y="270" width="1080" height="180" />
+  <text x="600" y="315" text-anchor="middle" class="title">Protection, Privacy, and Accountability</text>
+  <text x="600" y="345" text-anchor="middle" class="text">Designed to protect survivors while preserving lawful process and privacy.</text>
+
+  <circle class="accent" cx="180" cy="420" r="10" />
+  <circle class="accent" cx="600" cy="420" r="10" />
+  <circle class="accent" cx="1020" cy="420" r="10" />
+  <line class="line" x1="180" y1="420" x2="600" y2="420" />
+  <line class="line" x1="600" y1="420" x2="1020" y2="420" />
+</svg>

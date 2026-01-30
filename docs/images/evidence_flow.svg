@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="420" viewBox="0 0 1200 420">
+  <defs>
+    <style>
+      .box { fill: #ffffff; stroke: #0f172a; stroke-width: 2; rx: 12; }
+      .title { font: 600 18px 'Segoe UI', Arial, sans-serif; fill: #0f172a; }
+      .text { font: 14px 'Segoe UI', Arial, sans-serif; fill: #334155; }
+      .arrow { stroke: #0f172a; stroke-width: 2; marker-end: url(#arrow); }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#0f172a" />
+    </marker>
+  </defs>
+
+  <rect x="40" y="80" width="210" height="70" class="box" />
+  <text x="145" y="110" text-anchor="middle" class="title">Sensor Trigger</text>
+  <text x="145" y="132" text-anchor="middle" class="text">Motion / audio / breath</text>
+
+  <rect x="290" y="80" width="230" height="70" class="box" />
+  <text x="405" y="110" text-anchor="middle" class="title">Evidence Capture</text>
+  <text x="405" y="132" text-anchor="middle" class="text">Short secure sample</text>
+
+  <rect x="560" y="80" width="210" height="70" class="box" />
+  <text x="665" y="110" text-anchor="middle" class="title">SHA-256 Seal</text>
+  <text x="665" y="132" text-anchor="middle" class="text">Hash + timestamp</text>
+
+  <rect x="810" y="80" width="230" height="70" class="box" />
+  <text x="925" y="110" text-anchor="middle" class="title">Incident Packet</text>
+  <text x="925" y="132" text-anchor="middle" class="text">Immutable metadata</text>
+
+  <rect x="1080" y="80" width="80" height="70" class="box" />
+  <text x="1120" y="110" text-anchor="middle" class="title">Audit</text>
+  <text x="1120" y="132" text-anchor="middle" class="text">Delay log</text>
+
+  <line x1="250" y1="115" x2="290" y2="115" class="arrow" />
+  <line x1="520" y1="115" x2="560" y2="115" class="arrow" />
+  <line x1="770" y1="115" x2="810" y2="115" class="arrow" />
+  <line x1="1040" y1="115" x2="1080" y2="115" class="arrow" />
+
+  <text x="600" y="250" text-anchor="middle" class="text">Evidence is sealed immediately and stored with immutable metadata to preserve integrity.</text>
+</svg>

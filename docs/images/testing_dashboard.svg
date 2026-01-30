@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .card { fill: #ffffff; stroke: #e2e8f0; stroke-width: 2; rx: 14; }
+      .title { font: 600 18px 'Segoe UI', Arial, sans-serif; fill: #0f172a; }
+      .text { font: 14px 'Segoe UI', Arial, sans-serif; fill: #334155; }
+      .green { fill: #22c55e; }
+      .amber { fill: #f59e0b; }
+      .blue { fill: #3b82f6; }
+      .line { stroke: #3b82f6; stroke-width: 3; fill: none; }
+    </style>
+  </defs>
+  <rect class="bg" x="0" y="0" width="1200" height="520" />
+
+  <rect class="card" x="40" y="40" width="360" height="160" />
+  <text x="220" y="80" text-anchor="middle" class="title">Test Summary</text>
+  <text x="220" y="110" text-anchor="middle" class="text">Suites: 48</text>
+  <text x="220" y="135" text-anchor="middle" class="text">Pass Rate: 98.7%</text>
+  <text x="220" y="160" text-anchor="middle" class="text">Build Time: 6m 12s</text>
+
+  <rect class="card" x="430" y="40" width="340" height="160" />
+  <text x="600" y="80" text-anchor="middle" class="title">Security Checks</text>
+  <circle class="green" cx="520" cy="125" r="8" />
+  <text x="600" y="130" text-anchor="middle" class="text">SAST: Clean</text>
+  <circle class="green" cx="520" cy="150" r="8" />
+  <text x="610" y="155" text-anchor="middle" class="text">Dependencies: Clean</text>
+
+  <rect class="card" x="800" y="40" width="360" height="160" />
+  <text x="980" y="80" text-anchor="middle" class="title">Performance</text>
+  <text x="980" y="110" text-anchor="middle" class="text">P95 Latency: 180ms</text>
+  <text x="980" y="135" text-anchor="middle" class="text">Throughput: 1,250 req/s</text>
+  <text x="980" y="160" text-anchor="middle" class="text">Error Rate: 0.2%</text>
+
+  <rect class="card" x="40" y="230" width="1120" height="240" />
+  <text x="600" y="265" text-anchor="middle" class="title">Release Trend (Last 7 Runs)</text>
+  <path class="line" d="M120,400 L260,360 L400,370 L540,330 L680,340 L820,310 L960,320" />
+  <circle class="blue" cx="120" cy="400" r="6" />
+  <circle class="blue" cx="260" cy="360" r="6" />
+  <circle class="blue" cx="400" cy="370" r="6" />
+  <circle class="blue" cx="540" cy="330" r="6" />
+  <circle class="blue" cx="680" cy="340" r="6" />
+  <circle class="blue" cx="820" cy="310" r="6" />
+  <circle class="blue" cx="960" cy="320" r="6" />
+</svg>

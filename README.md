@@ -21,6 +21,19 @@ The first few hours are critical — evidence is often lost, and delay leaves no
 
 ---
 
+## Visuals (Protection & Evidence)
+
+### Protection Workflow Overview
+![Protection Overview](docs/images/women_protection.svg)
+
+### Evidence Preservation Flow
+![Evidence Flow](docs/images/evidence_flow.svg)
+
+### Testing Results Dashboard (Sample)
+![Testing Dashboard](docs/images/testing_dashboard.svg)
+
+---
+
 ## What This System Does NOT Do
 - Does NOT auto-register FIRs
 - Does NOT bypass police authority
