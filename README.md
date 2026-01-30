@@ -38,6 +38,13 @@ The system has been validated with comprehensive automated testing and real-worl
 - [Comprehensive Test Suite](comprehensive_test.py)
 - [Real-World Threat Simulation](real_world_threat_simulation.py)
 
+**Proof-of-concept visuals:**
+![Testing Overview](docs/images/testing.svg)
+![Testing Dashboard](docs/images/testing_dashboard.svg)
+![Workflow](docs/images/workflow.svg)
+![Protection Overview](docs/images/women_protection.svg)
+![Evidence Flow](docs/images/evidence_flow.svg)
+
 ---
 
 ## Visuals (Protection & Evidence)
