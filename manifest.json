@@ -1,33 +1,51 @@
 {
-  "name": "VAJRA Shakti Kavach - Women Safety Platform",
-  "short_name": "VAJRA",
-  "description": "Technology-assisted women safety and evidence preservation system",
-  "start_url": "/app.html",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#ef4444",
-  "orientation": "portrait-primary",
-  "scope": "/",
-  "icons": [
-    {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23ef4444' width='192' height='192'/><text x='50%' y='50%' font-size='120' fill='white' text-anchor='middle' dominant-baseline='middle' font-weight='bold'>V</text></svg>",
-      "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "any"
+  "name": "Official DET Practice Analysis by Arno",
+  "description": "Record and export Duolingo English Test practice session data for analysis.",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Official DET Practice Analysis by Arno",
+    "default_icon": {
+      "16": "assets/icon-16.png",
+      "32": "assets/icon-32.png",
+      "48": "assets/icon-48.png",
+      "128": "assets/icon-128.png"
     }
+  },
+  "permissions": ["storage", "downloads", "scripting", "activeTab"],
+  "host_permissions": [
+    "*://englishtest.duolingo.com/*",
+    "*://*.supabase.co/*",
+    "*://duolingo.goarno.io/*",
+    "*://duolingo.goarno-local.io/*"
   ],
-  "shortcuts": [
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
     {
-      "name": "Emergency SOS",
-      "short_name": "SOS",
-      "description": "Activate emergency distress protocol",
-      "url": "/app.html?action=sos"
+      "matches": ["*://englishtest.duolingo.com/*"],
+      "js": ["page-hook.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
     },
     {
-      "name": "Share Location",
-      "short_name": "Location",
-      "description": "Share your location with emergency contacts",
-      "url": "/app.html?action=location"
+      "matches": ["*://englishtest.duolingo.com/*"],
+      "js": ["content-script.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["*://duolingo.goarno.io/*", "*://duolingo.goarno-local.io/*"],
+      "js": ["arno-site-session.js"],
+      "run_at": "document_idle"
     }
-  ]
+  ],
+  "icons": {
+    "16": "assets/icon-16.png",
+    "32": "assets/icon-32.png",
+    "48": "assets/icon-48.png",
+    "128": "assets/icon-128.png"
+  }
 }
