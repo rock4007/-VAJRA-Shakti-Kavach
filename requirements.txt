@@ -1,0 +1,15 @@
+redis>=4.5.0
+pytest>=7.0.0flask==3.0.3
+flask-cors==4.0.1
+requests==2.32.3
+gunicorn==21.2.0
+twilio==8.10.0
+python-dotenv==1.0.0
+pytest==8.0.0
+pytest-cov==4.1.0
+flask-talisman==1.0.0
+Flask-Limiter==2.8.0
+redis==4.9.0
+cryptography==41.0.0
+bandit==1.7.5
+detect-secrets==1.4.0
