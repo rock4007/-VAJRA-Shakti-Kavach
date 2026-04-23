@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: pfid-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    plan: starter
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pfid-postgres
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: pfid-redis
+          property: connectionString
+      - key: CORS_ORIGINS
+        value: '["https://YOUR-NETLIFY-SITE.netlify.app"]'
+
+  - type: redis
+    name: pfid-redis
+    plan: starter
+    maxmemoryPolicy: allkeys-lru
+
+databases:
+  - name: pfid-postgres
+    plan: starter
