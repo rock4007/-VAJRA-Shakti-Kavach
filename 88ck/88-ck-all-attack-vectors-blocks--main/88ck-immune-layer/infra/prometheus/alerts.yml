@@ -1,0 +1,27 @@
+groups:
+  - name: stability-alerts
+    rules:
+      - alert: StabilityDegradation
+        expr: stability_index < 0.80
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "S(t) dropped below safe threshold"
+          description: "The immune layer may enter unstable regime if no action is taken."
+      - alert: MorphicSecurityBlocksSpike
+        expr: morphic_security_block_rate_5m > 0.5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Morphic security block rate elevated"
+          description: "Gateway is blocking more than 0.5 requests/sec over 5m. Investigate possible active probing."
+      - alert: MorphicCriticalPayloadBlocks
+        expr: morphic_security_block_rate_critical_5m > 0.1
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: "SQLi or malware payload activity detected"
+          description: "Sustained critical payload blocking is occurring at the gateway. Trigger incident response."

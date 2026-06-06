@@ -1,0 +1,17 @@
+# Private adversarial code
+adversarial-harness/
+adversarial-harness/*.py
+
+# Model artifacts
+models/*.onnx
+pillar3-entropy/models/**/*.onnx
+
+# Environment and coverage
+*.env
+coverage.out
+__pycache__/
+
+# Language/tooling
+node_modules/
+frontend/dist/
+*.log

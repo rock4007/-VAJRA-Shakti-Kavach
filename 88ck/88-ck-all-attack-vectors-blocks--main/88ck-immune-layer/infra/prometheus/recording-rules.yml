@@ -1,0 +1,11 @@
+groups:
+  - name: immune-layer-recording
+    rules:
+      - record: stability_index
+        expr: avg_over_time(immune_stability_score[5m])
+      - record: gamma_coupling_index
+        expr: avg_over_time(immune_gamma_coupling[5m])
+      - record: morphic_security_block_rate_5m
+        expr: sum(rate(morphic_security_blocks_total[5m]))
+      - record: morphic_security_block_rate_critical_5m
+        expr: sum(rate(morphic_security_blocks_total{reason=~"sql_injection_blocked|malware_payload_blocked"}[5m]))

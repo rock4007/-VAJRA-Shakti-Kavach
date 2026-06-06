@@ -1,0 +1,24 @@
+# Go build artifacts
+*.out
+coverage.out
+
+# Test files (kept in source, excluded from image context)
+**/*_test.go
+testdata/
+
+# Documentation
+*.md
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,5 @@
+numpy==1.26.4
+networkx==3.2.1
+onnxruntime==1.18.1
+shap==0.46.0
+cyclonedx-bom>=5.0.0

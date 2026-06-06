@@ -1,0 +1,60 @@
+:root {
+  --ink: #101935;
+  --surface: #f4f7fb;
+  --accent: #0fa3b1;
+  --alert: #f8961e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: radial-gradient(circle at 20% 10%, #e4fbff 0%, #f4f7fb 45%, #e7edf7 100%);
+}
+
+.page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 3rem 1.25rem;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+}
+
+.hero p {
+  max-width: 58ch;
+  font-size: 1.1rem;
+}
+
+.cards {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.cards article {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid #d2dde8;
+  box-shadow: 0 8px 24px rgba(10, 31, 68, 0.08);
+}
+
+.cards h2 {
+  margin-top: 0;
+  color: var(--accent);
+}
+
+.cards p {
+  margin-bottom: 0;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--alert);
+}

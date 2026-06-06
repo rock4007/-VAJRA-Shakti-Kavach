@@ -1,0 +1,11 @@
+# Global defaults
+* @platform-admins
+
+# Pillar ownership (required reviewers)
+/pillar1-morphic/ @pillar1-owner @platform-admins
+/pillar2-consensus/ @pillar2-owner @platform-admins
+/pillar3-entropy/ @pillar3-owner @platform-admins
+/stability-engine/ @stability-owner @platform-admins
+/frontend/ @frontend-owner @platform-admins
+/infra/ @infra-owner @platform-admins
+/docs/ @docs-owner

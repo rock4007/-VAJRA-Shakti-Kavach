@@ -1,0 +1,84 @@
+name: SBOM
+
+'on':
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  release:
+    types: [published]
+
+jobs:
+  # ──────────────────────────────────────────────────────────────────────────
+  # Python SBOM — pillar3-entropy
+  # ──────────────────────────────────────────────────────────────────────────
+  python-sbom:
+    name: Python SBOM (CycloneDX)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies + cyclonedx-bom
+        working-directory: 88ck-immune-layer/pillar3-entropy
+        run: pip install -r requirements.txt cyclonedx-bom
+
+      - name: Generate SBOM from environment
+        working-directory: 88ck-immune-layer/pillar3-entropy
+        run: cyclonedx-py environment --of JSON -o sbom-python.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom-python
+          path: 88ck-immune-layer/pillar3-entropy/sbom-python.json
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # Go SBOMs — one per module
+  # ──────────────────────────────────────────────────────────────────────────
+  go-sbom:
+    name: Go SBOM (CycloneDX) — ${{ matrix.module }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        module: [pillar1-morphic, pillar2-consensus, stability-engine]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+
+      - name: Install cyclonedx-gomod
+        run: go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@latest
+
+      - name: Generate Go SBOM
+        working-directory: 88ck-immune-layer/${{ matrix.module }}
+        run: cyclonedx-gomod mod -json -output sbom-${{ matrix.module }}.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom-${{ matrix.module }}
+          path: 88ck-immune-layer/${{ matrix.module }}/sbom-${{ matrix.module }}.json
+
+  # ──────────────────────────────────────────────────────────────────────────
+  # On release: merge all SBOMs and attach to release assets
+  # ──────────────────────────────────────────────────────────────────────────
+  attach-sboms:
+    name: Attach SBOMs to release
+    if: github.event_name == 'release'
+    needs: [python-sbom, go-sbom]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: sboms
+          merge-multiple: true
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: sboms/*.json

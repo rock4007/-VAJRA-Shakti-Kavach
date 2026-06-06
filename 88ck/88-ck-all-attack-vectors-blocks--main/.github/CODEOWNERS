@@ -1,0 +1,10 @@
+# Enforce owner review across the repository.
+# NOTE: This is effective only when branch protection enables
+# "Require review from Code Owners" on GitHub.
+
+* @rock4007
+
+# Critical governance files must remain owner-controlled.
+/.github/* @rock4007
+/README.md @rock4007
+/88ck-immune-layer/** @rock4007

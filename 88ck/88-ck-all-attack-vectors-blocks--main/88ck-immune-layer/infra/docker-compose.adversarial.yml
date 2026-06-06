@@ -1,0 +1,10 @@
+services:
+  adversarial-harness:
+    image: python:3.11-slim
+    working_dir: /work
+    volumes:
+      - ../adversarial-harness:/work
+    environment:
+      GATEWAY_URL: http://morphic:8080
+      STABILITY_URL: http://stability:8090
+    command: ["python", "runner.py", "--strict", "--live"]

@@ -1,0 +1,85 @@
+name: CI
+
+'on':
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  go-test:
+    name: Go tests — ${{ matrix.module }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        module: [pillar1-morphic, pillar2-consensus, stability-engine]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+
+      - name: Run unit tests
+        working-directory: 88ck-immune-layer/${{ matrix.module }}
+        run: |
+          go mod tidy
+          go test ./... -coverprofile=coverage.out
+
+  python-check:
+    name: Python lint + compile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate entropy code
+        working-directory: 88ck-immune-layer/pillar3-entropy
+        run: |
+          pip install -r requirements.txt
+          python -m compileall cmd internal
+
+  frontend-build:
+    name: Frontend build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install and build
+        working-directory: 88ck-immune-layer/frontend
+        run: |
+          npm install
+          npm run build
+
+  helm-validate:
+    name: Helm chart validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: azure/setup-helm@v4
+
+      - name: Lint and render chart
+        working-directory: 88ck-immune-layer/infra/helm/88ck
+        run: |
+          helm lint .
+          helm template 88ck . >/tmp/88ck-rendered.yaml
+
+  compose-validate:
+    name: Docker Compose validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate compose manifests
+        working-directory: 88ck-immune-layer/infra
+        run: |
+          docker compose config -q
+          docker compose -f docker-compose.adversarial.yml config -q

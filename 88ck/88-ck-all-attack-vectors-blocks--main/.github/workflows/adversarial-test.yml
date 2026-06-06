@@ -1,0 +1,25 @@
+name: Adversarial Regression
+
+'on':
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+
+jobs:
+  run-adversarial-harness:
+    name: ATT&CK scenario harness
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install harness deps
+        working-directory: 88ck-immune-layer/pillar3-entropy
+        run: pip install -r requirements.txt
+
+      - name: Run ATT&CK scenarios
+        working-directory: 88ck-immune-layer/adversarial-harness
+        run: python runner.py --strict

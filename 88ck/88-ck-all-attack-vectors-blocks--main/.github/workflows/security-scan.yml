@@ -1,0 +1,59 @@
+name: Security Scan
+
+'on':
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 3 * * *'
+
+jobs:
+  gosec:
+    name: gosec (Go SAST)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+
+      - name: Install gosec
+        run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+
+      - name: Run gosec
+        run: |
+          gosec ./88ck-immune-layer/pillar1-morphic/... \
+               ./88ck-immune-layer/pillar2-consensus/... \
+               ./88ck-immune-layer/stability-engine/...
+
+  bandit:
+    name: bandit (Python SAST)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run bandit
+        run: |
+          pip install bandit
+          bandit -r 88ck-immune-layer/pillar3-entropy
+
+  trivy:
+    name: Trivy filesystem scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Trivy
+        uses: aquasecurity/trivy-action@v0.35.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: table
+          exit-code: '1'
+          severity: CRITICAL,HIGH

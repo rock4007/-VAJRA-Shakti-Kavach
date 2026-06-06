@@ -1,0 +1,11 @@
+name: Legacy Placeholder Adversarial
+
+on:
+  workflow_dispatch:
+
+jobs:
+  placeholder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Legacy workflow moved
+        run: echo "Moved to repo root .github/workflows/adversarial-test.yml"

@@ -1,0 +1,11 @@
+name: Legacy Placeholder Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  placeholder:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Legacy workflow moved
+        run: echo "Moved to repo root .github/workflows/release.yml"
