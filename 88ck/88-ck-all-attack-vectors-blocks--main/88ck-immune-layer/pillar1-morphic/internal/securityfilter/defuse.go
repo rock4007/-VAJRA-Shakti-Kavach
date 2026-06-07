@@ -25,8 +25,9 @@ func Defuse(input string) string {
 	}, input)
 	clean = dangerousReplacer.Replace(clean)
 	clean = strings.TrimSpace(clean)
-	if len(clean) > 240 {
-		return clean[:240] + "..."
+	runes := []rune(clean)
+	if len(runes) > 240 {
+		return string(runes[:240]) + "..."
 	}
 	return clean
 }

@@ -118,9 +118,10 @@ def detect_attack_chains(graph: Dict[str, List[AttackEdge]], current_alerts: Lis
     for alert in current_alerts:
         technique_id = map_alert_to_technique(alert)
         paths = find_attack_paths(graph, alert.source, technique_id)
+        severity = min(1.0, max(0.0, alert.severity))
 
         for path in paths:
-            probability = calculate_chain_probability(path)
+            probability = calculate_chain_probability(path) * severity
             impact = calculate_chain_impact(path)
 
             if probability > THRESHOLD and impact > IMPACT_THRESHOLD:

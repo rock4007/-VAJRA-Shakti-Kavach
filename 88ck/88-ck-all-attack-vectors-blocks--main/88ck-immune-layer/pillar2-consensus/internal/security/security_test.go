@@ -86,3 +86,22 @@ func TestLayerDoesNotBurnNonceOnInvalidProof(t *testing.T) {
 		t.Fatalf("expected valid proof to be admitted after invalid attempt, got %s", validDecision.Reason)
 	}
 }
+
+func TestLayerReportsNotReadyWhenDependenciesMissing(t *testing.T) {
+	decision := (*Layer)(nil).Evaluate(AdmissionRequest{})
+	if decision.Allowed {
+		t.Fatalf("expected nil layer to be rejected")
+	}
+	if decision.Reason != "layer_not_ready" {
+		t.Fatalf("unexpected reason: %s", decision.Reason)
+	}
+
+	layer := NewLayer(nil, nil, nil)
+	decision = layer.Evaluate(AdmissionRequest{})
+	if decision.Allowed {
+		t.Fatalf("expected incomplete layer to be rejected")
+	}
+	if decision.Reason != "layer_not_ready" {
+		t.Fatalf("unexpected incomplete layer reason: %s", decision.Reason)
+	}
+}

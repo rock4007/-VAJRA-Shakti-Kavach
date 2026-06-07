@@ -13,7 +13,11 @@ echo "[bootstrap] syncing Go modules"
 echo "[bootstrap] installing frontend dependencies"
 (
   cd "$ROOT_DIR/frontend"
-  npm install
+  if [[ -f package-lock.json ]]; then
+    npm ci
+  else
+    npm install
+  fi
 )
 
 echo "[bootstrap] installing entropy dependencies"

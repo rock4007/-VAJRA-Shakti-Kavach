@@ -84,7 +84,7 @@ func main() {
 	})
 	mux.Handle("/metrics", promhttp.Handler())
 
-	protectedHandler := securityfilter.Middleware(securityFilter)(mux)
+	protectedHandler := withCORS(securityfilter.Middleware(securityFilter)(mux))
 
 	srv := &http.Server{
 		Addr:              ":8080",
@@ -119,6 +119,19 @@ func writeJSON(w http.ResponseWriter, status int, payload any) {
 	if err := json.NewEncoder(w).Encode(payload); err != nil {
 		log.Printf("encode response: %v", err)
 	}
+}
+
+func withCORS(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+		if r.Method == http.MethodOptions {
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
 }
 
 func wsStatusHandler(w http.ResponseWriter, r *http.Request, immuneLayer *immune.ImmuneLayer, serviceID, serviceDigest string) {

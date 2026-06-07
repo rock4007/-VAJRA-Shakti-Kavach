@@ -33,6 +33,9 @@ func NewReplayGuard() *ReplayGuard {
 }
 
 func (r *ReplayGuard) TryMark(nonce string) bool {
+	if r == nil {
+		return false
+	}
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
@@ -51,6 +54,9 @@ func (r *ReplayGuard) TryMark(nonce string) bool {
 }
 
 func (r *ReplayGuard) Seen(nonce string) bool {
+	if r == nil {
+		return true
+	}
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	_, ok := r.seen[nonce]
@@ -72,6 +78,9 @@ func NewLayer(identity *nhi.IdentityProvider, zk *zkp.Verifier, replay *ReplayGu
 // The nonce is marked only after validation so malformed requests cannot burn a
 // legitimate proposal nonce before the real proof arrives.
 func (l *Layer) Evaluate(req AdmissionRequest) AdmissionDecision {
+	if l == nil || l.identity == nil || l.zk == nil || l.replay == nil {
+		return AdmissionDecision{Allowed: false, Reason: "layer_not_ready"}
+	}
 	if req.Proof.Nonce == "" {
 		return AdmissionDecision{Allowed: false, Reason: "nonce_required"}
 	}

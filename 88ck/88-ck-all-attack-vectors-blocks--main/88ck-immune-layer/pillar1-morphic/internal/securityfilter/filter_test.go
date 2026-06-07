@@ -39,3 +39,14 @@ func TestInspectRequestAllowsNormalTraffic(t *testing.T) {
 		t.Fatalf("expected benign request to pass")
 	}
 }
+
+func TestDefuseTruncatesMultibyteInputSafely(t *testing.T) {
+	input := strings.Repeat("界", 300) + "<script>"
+	got := Defuse(input)
+	if strings.Contains(got, "<script>") {
+		t.Fatalf("expected dangerous symbols to be neutralized")
+	}
+	if len([]rune(got)) > 243 {
+		t.Fatalf("expected rune-safe truncation, got %d runes", len([]rune(got)))
+	}
+}

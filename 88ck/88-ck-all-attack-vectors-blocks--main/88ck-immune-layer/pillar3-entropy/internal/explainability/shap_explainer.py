@@ -5,6 +5,7 @@ from typing import Dict
 
 class ShapExplainer:
     def explain(self, event: Dict[str, str], score: float) -> Dict[str, float]:
+        score = min(1.0, max(0.0, score))
         action_weight = 0.5 if event.get("action") in {"exec", "write", "admin"} else 0.2
         actor_weight = 0.3 if event.get("actor", "").startswith("nhi:") else 0.1
         target_weight = max(0.0, 1.0 - action_weight - actor_weight)

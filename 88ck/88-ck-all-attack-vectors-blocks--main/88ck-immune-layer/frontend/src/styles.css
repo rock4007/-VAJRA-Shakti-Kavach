@@ -24,7 +24,7 @@ body {
 
 .hero h1 {
   margin: 0;
-  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-size: 3rem;
 }
 
 .hero p {
@@ -41,7 +41,7 @@ body {
 
 .cards article {
   background: white;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 1rem;
   border: 1px solid #d2dde8;
   box-shadow: 0 8px 24px rgba(10, 31, 68, 0.08);

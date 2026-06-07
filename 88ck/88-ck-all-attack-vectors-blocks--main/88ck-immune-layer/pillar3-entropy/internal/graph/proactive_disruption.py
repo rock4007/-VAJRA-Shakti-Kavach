@@ -36,6 +36,8 @@ def update_attack_graph(attack_graph: AttackGraph, source: str, target: str, blo
 def normalize_edge(edge: Any) -> AttackEdge:
     if isinstance(edge, AttackEdge):
         return edge
+    if not isinstance(edge, dict):
+        return AttackEdge(source="", target="", technique_id="", weight=0.0, impact=0.0)
     return AttackEdge(
         source=edge.get("source", ""),
         target=edge.get("target", ""),
@@ -61,6 +63,8 @@ def disrupt_attack_chain(
     for raw_edge in edges:
         edge = normalize_edge(raw_edge)
         target = edge.target
+        if not edge.source or not target:
+            continue
 
         if disruption_method == "ISOLATION":
             isolate_component(target)

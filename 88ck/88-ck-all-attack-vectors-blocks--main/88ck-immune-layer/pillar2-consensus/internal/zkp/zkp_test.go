@@ -99,6 +99,25 @@ func TestRegisterIdentityRejectsInvalidPublicKey(t *testing.T) {
 	}
 }
 
+func TestVerifierHandlesNilAndZeroValueConstruction(t *testing.T) {
+	proof := Proof{
+		IdentityID:    "svc-consensus",
+		Nonce:         "nonce-1",
+		StatementHash: hashHex("checkpoint-epoch-777"),
+		Signature:     "c2hvcnQ=",
+	}
+
+	if (*Verifier)(nil).Verify("checkpoint-epoch-777", proof) {
+		t.Fatalf("expected nil verifier to fail closed")
+	}
+
+	var verifier Verifier
+	verifier.RegisterIdentity("", []byte("short"))
+	if verifier.Verify("checkpoint-epoch-777", proof) {
+		t.Fatalf("expected zero-value verifier without valid key to fail")
+	}
+}
+
 func BenchmarkVerifyValidAndMalformed(b *testing.B) {
 	prover, err := NewProver("svc-consensus")
 	if err != nil {

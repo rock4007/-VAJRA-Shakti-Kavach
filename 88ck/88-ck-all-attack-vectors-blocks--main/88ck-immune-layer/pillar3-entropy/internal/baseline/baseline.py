@@ -6,8 +6,8 @@ from typing import Deque, List
 
 class BaselineEstimator:
     def __init__(self, window: int = 128) -> None:
-        self.window = window
-        self.history: Deque[float] = deque(maxlen=window)
+        self.window = max(1, window)
+        self.history: Deque[float] = deque(maxlen=self.window)
 
     def score(self, vector: List[float]) -> float:
         if not vector:

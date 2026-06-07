@@ -6,7 +6,7 @@ from typing import Dict, List
 
 class EmbeddingModel:
     def __init__(self, dim: int = 64) -> None:
-        self.dim = dim
+        self.dim = max(1, dim)
 
     def encode(self, event: Dict[str, str]) -> List[float]:
         text = "|".join([event.get("actor", ""), event.get("target", ""), event.get("action", "")])

@@ -65,8 +65,11 @@ func NewVerifier() *Verifier {
 }
 
 func (v *Verifier) RegisterIdentity(identityID string, key ed25519.PublicKey) {
-	if len(key) != ed25519PublicKeySize {
+	if v == nil || identityID == "" || len(key) != ed25519PublicKeySize {
 		return
+	}
+	if v.keys == nil {
+		v.keys = make(map[string]ed25519.PublicKey)
 	}
 	copied := make(ed25519.PublicKey, ed25519PublicKeySize)
 	copy(copied, key)
@@ -74,6 +77,9 @@ func (v *Verifier) RegisterIdentity(identityID string, key ed25519.PublicKey) {
 }
 
 func (v *Verifier) Verify(statement string, proof Proof) bool {
+	if v == nil || v.keys == nil {
+		return false
+	}
 	pub, ok := v.keys[proof.IdentityID]
 	pubKey, identityOK := normalizePublicKey(pub, ok)
 

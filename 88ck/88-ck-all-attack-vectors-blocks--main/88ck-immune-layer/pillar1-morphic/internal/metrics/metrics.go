@@ -92,8 +92,12 @@ func NewMetrics(ctx context.Context) *Metrics {
 }
 
 func (m *Metrics) StartMorphCycle(ctx context.Context, seed []byte) (context.Context, trace.Span) {
+	seedPrefix := seed
+	if len(seedPrefix) > 8 {
+		seedPrefix = seedPrefix[:8]
+	}
 	ctx, span := m.tracer.Start(ctx, "morph_cycle", trace.WithAttributes(
-		attribute.String("seed.hex", fmt.Sprintf("%x", seed[0:8])),
+		attribute.String("seed.hex", fmt.Sprintf("%x", seedPrefix)),
 	))
 	return ctx, span
 }
