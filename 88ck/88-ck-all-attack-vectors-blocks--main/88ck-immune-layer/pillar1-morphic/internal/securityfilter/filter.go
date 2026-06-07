@@ -16,13 +16,16 @@ type Verdict struct {
 type Filter struct {
 	sqlPatterns     []*regexp.Regexp
 	malwarePatterns []*regexp.Regexp
+	promptShield    *PromptShield
 	maxInspectBytes int64
 }
 
-// New returns a heuristic ingress filter for common SQLi and payload-delivery patterns.
-// Rules are intentionally conservative and can be tuned as false positives are observed.
+// New returns a heuristic ingress filter for common SQLi, payload-delivery, and
+// LLM prompt-injection patterns. Rules are intentionally conservative and can be
+// tuned as false positives are observed.
 func New() *Filter {
 	return &Filter{
+		promptShield: NewPromptShield(),
 		sqlPatterns: []*regexp.Regexp{
 			regexp.MustCompile(`(?i)union\s+select`),
 			regexp.MustCompile(`(?i)or\s+1\s*=\s*1`),
@@ -76,6 +79,11 @@ func (f *Filter) InspectRequest(r *http.Request) Verdict {
 	}
 	if reason, evidence := matchAny(f.malwarePatterns, probe); reason != "" {
 		return Verdict{Allowed: false, Reason: "malware_payload_blocked", Evidence: evidence}
+	}
+	// Prompt injection runs last: it is more expensive (more patterns, normalization)
+	// and most valuable for AI-facing endpoints. SQLi/malware fast-path is unchanged.
+	if v := f.promptShield.InspectPrompt(probe); !v.Allowed {
+		return v
 	}
 
 	return Verdict{Allowed: true, Reason: "allowed"}
