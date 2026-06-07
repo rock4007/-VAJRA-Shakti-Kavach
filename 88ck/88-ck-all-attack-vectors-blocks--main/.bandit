@@ -1,0 +1,5 @@
+[assert_used]
+skips = */test_*.py,*/tests.py,*/*test*.py
+
+[general]
+exclude_dirs = ['/test', '/tests', '/.venv', '/venv']
