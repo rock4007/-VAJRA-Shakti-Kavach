@@ -7,7 +7,7 @@ import (
 
 // PromptShield detects LLM prompt injection, jailbreak, and indirect injection
 // patterns before requests reach AI-backed services. This threat class is distinct
-// from SQLi and malware delivery — the payload is valid text that hijacks model
+// from SQLi and malware delivery -- the payload is valid text that hijacks model
 // context rather than executing code.
 //
 // Three attack families are modelled:
@@ -21,13 +21,12 @@ type PromptShield struct {
 	dataPlaneInject  []*regexp.Regexp
 }
 
-// multiSpaceRe collapses repeated whitespace — pre-compiled once, used in the hot path.
+// multiSpaceRe collapses repeated whitespace -- pre-compiled once, used in the hot path.
 var multiSpaceRe = regexp.MustCompile(`\s{2,}`)
 
 func NewPromptShield() *PromptShield {
 	return &PromptShield{
 		// Direct injection: explicit instruction-override markers.
-		// Attacker tries to terminate the system prompt and inject a new directive.
 		directInjection: []*regexp.Regexp{
 			regexp.MustCompile(`(?i)ignore\s+(all\s+)?(previous|prior|above|earlier)\s+(instructions?|prompts?|context|rules?|constraints?)`),
 			regexp.MustCompile(`(?i)disregard\s+(all\s+)?(previous|prior|above|earlier)\s+(instructions?|prompts?|context|rules?)`),
@@ -38,9 +37,7 @@ func NewPromptShield() *PromptShield {
 			regexp.MustCompile(`(?i)override\s+(system|safety|content)\s*(policy|filter|prompt|instructions?|rules?)`),
 			regexp.MustCompile(`(?i)your\s+(real\s+|true\s+|actual\s+)?(instructions?|rules?|purpose|goal|directive)\s+(is|are)\s+(to|now)`),
 		},
-
 		// Jailbreak framing: role-play and hypothetical escapes.
-		// Attacker frames the model as an alternate persona without restrictions.
 		jailbreakFraming: []*regexp.Regexp{
 			regexp.MustCompile(`(?i)(act|pretend|roleplay|imagine|simulate|behave)\s+as\s+(if\s+you\s+(are|were)|a[n]?\s+AI\s+(without|with\s+no)|an?\s+unrestricted|dan\b|jailbreak)`),
 			regexp.MustCompile(`(?i)\bDAN\b.{0,60}\bdo\s+anything\s+now\b`),
@@ -50,10 +47,7 @@ func NewPromptShield() *PromptShield {
 			regexp.MustCompile(`(?i)in\s+(a\s+)?fictional\s+(world|story|scenario).{0,80}(how\s+(to|would)|instructions?|steps?)`),
 			regexp.MustCompile(`(?i)token\s+(budget|limit).{0,40}(bypass|ignore|remove)`),
 		},
-
 		// Indirect / data-plane injection: payloads hidden in retrieved content.
-		// Attackers embed instructions in documents, web pages, or tool outputs
-		// that the model is asked to process — the payload hijacks the next action.
 		dataPlaneInject: []*regexp.Regexp{
 			regexp.MustCompile(`(?i)\[INST\]|\[/INST\]|<\|im_start\|>|<\|im_end\|>`),
 			regexp.MustCompile(`(?i)<\|endoftext\|>|<\|beginoftext\|>|<\|start_header_id\|>`),
@@ -67,8 +61,6 @@ func NewPromptShield() *PromptShield {
 }
 
 // InspectPrompt evaluates a text payload for LLM injection signals.
-// Callers should pass the assembled probe string (same as InspectRequest uses)
-// so header, query, and body content are all evaluated in one pass.
 func (ps *PromptShield) InspectPrompt(probe string) Verdict {
 	normalized := normalizePromptProbe(probe)
 
@@ -84,19 +76,14 @@ func (ps *PromptShield) InspectPrompt(probe string) Verdict {
 
 	return Verdict{Allowed: true, Reason: "allowed"}
 }
-
-// normalizePromptProbe strips invisible Unicode used to split keywords across
-// regex word boundaries, then collapses repeated whitespace.
-// This handles the evasion pattern: "i​g​n​o​r​e" (zero-width chars between letters).
+// normalizePromptProbe strips invisible Unicode codepoints used to split keywords
+// across regex word boundaries, then collapses repeated whitespace.
 func normalizePromptProbe(input string) string {
 	stripped := strings.Map(func(r rune) rune {
 		switch r {
-		// Zero-width space, non-joiner, joiner, LRM, RLM
-		case '​', '‌', '‍', '\u200E', '\u200F',
-			// Unicode direction overrides
+		case '\u200B', '\u200C', '\u200D', '\u200E', '\u200F',
 			'\u202A', '\u202B', '\u202C', '\u202D', '\u202E',
-			// BOM
-			'﻿':
+			'\uFEFF':
 			return -1
 		}
 		return r
