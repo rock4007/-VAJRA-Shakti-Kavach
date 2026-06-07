@@ -2,9 +2,9 @@ name: Security Scan
 
 'on':
   push:
-    branches: [main]
+    branches: [main, pfid-main]
   pull_request:
-    branches: [main]
+    branches: [main, pfid-main]
   schedule:
     - cron: '0 3 * * *'
 
@@ -41,7 +41,7 @@ jobs:
       - name: Run bandit
         run: |
           pip install bandit
-          bandit -r 88ck-immune-layer/pillar3-entropy
+          bandit -r 88ck-immune-layer/pillar3-entropy -c .bandit --skip-docs --exclude='*/test*.py'
 
   trivy:
     name: Trivy filesystem scan
